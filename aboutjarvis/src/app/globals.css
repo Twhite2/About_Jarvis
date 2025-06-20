@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/* Dark theme colors (default) */
+:root,
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #0dfff7;
+  --secondary: #889096;
+  --accent: #ff2a6d;
+  --muted: #2a2a2a;
+  --subtle-bg: #161622;
+  --border: rgba(255, 255, 255, 0.145);
+  --cyber-yellow: #f9f002;
+  --cyber-blue: #00f0ff;
+  --cyber-pink: #ff2a6d;
+  --cyber-purple: #8a2be2;
+  --nav-bg: #000000;
+  --card-bg: rgba(22, 22, 34, 0.9);
+  --shadow-color: rgba(0, 240, 255, 0.3);
+}
+
+/* Light theme colors */
+[data-theme="light"] {
+  --background: #f0f1f5;
+  --foreground: #121212;
+  --primary: #f2056f;
+  --secondary: #505458;
+  --accent: #00f0ff;
+  --muted: #e0e0e0;
+  --subtle-bg: #e5e6f0;
+  --border: rgba(0, 0, 0, 0.1);
+  --cyber-yellow: #f9f002;
+  --cyber-blue: #00b8cc;
+  --cyber-pink: #f2056f;
+  --cyber-purple: #6a1fb2;
+  --nav-bg: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --shadow-color: rgba(242, 5, 111, 0.2);
+}
+
+/* Font settings */
+:root {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-orbitron);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Theme transition */
+*, *::before, *::after {
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom animated cursor styles */
+.cursor-follower {
+  position: fixed;
+  background: var(--cyber-blue);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: exclusion;
+  z-index: 999;
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 15px var(--cyber-blue), 0 0 25px var(--cyber-pink);
+}
+
+@media (max-width: 768px) {
+  .cursor-follower {
+    display: none;
+  }
+}
+
+/* Default heading styles */
+h1, h2, h3 {
+  font-family: var(--font-orbitron);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+/* Specific robotic heading style for section titles */
+.cyber-heading {
+  font-family: var(--font-orbitron);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--cyber-blue);
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+}
+
+.cyber-heading::before {
+  content: "//";
+  color: var(--cyber-pink);
+  margin-right: 0.5rem;
+}
+
+/* Only the typing animation should glow */
+.typing-animation {
+  text-shadow: 0 0 5px var(--cyber-blue), 0 0 10px var(--cyber-blue), 0 0 15px var(--cyber-blue);
+}
+
+/* Project title styling */
+.cyber-project {
+  font-family: var(--font-orbitron);
+  font-weight: 600;
+  color: var(--cyber-blue);
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cyber-project::before {
+  content: ">"; 
+  color: var(--cyber-pink);
+  margin-right: 0.25rem;
+  display: inline-block;
+}
+
+/* Cyberpunk glitch effect */
+.glitch-effect {
+  position: relative;
+  color: var(--cyber-yellow);
+  text-shadow: 0 0 5px var(--cyber-yellow), 0 0 10px var(--cyber-blue);
+}
+
+.glitch-effect::before,
+.glitch-effect::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-effect::before {
+  color: var(--cyber-pink);
+  z-index: -1;
+  transform: translateX(-3px);
+  animation: glitch-anim 2.5s infinite alternate;
+}
+
+.glitch-effect::after {
+  color: var(--cyber-blue);
+  z-index: -2;
+  transform: translateX(3px);
+  animation: glitch-anim2 3.5s infinite alternate;
+}
+
+@keyframes glitch-anim {
+  0%, 100% { transform: translateX(-2px); }
+  30% { transform: translateX(2px); }
+  60% { transform: translateX(-4px); }
+}
+
+@keyframes glitch-anim2 {
+  0%, 100% { transform: translateX(2px); }
+  50% { transform: translateX(-2px); }
+  80% { transform: translateX(4px); }
+}
+
+/* Vertical navbar styling */
+.vertical-nav {
+  background-color: #000;
+  border-right: 1px solid #333;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 50px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.nav-link {
+  position: relative;
+  padding: 1.5rem 0;
+  margin: 1rem 0;
+  color: #666;
+  font-weight: 500;
+  letter-spacing: 2px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-orbitron);
+  transition: all 0.3s;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: var(--cyber-blue);
+}
+
+.nav-link.active {
+  color: var(--cyber-blue);
+  font-weight: 700;
+}
+
+.nav-link::before {
+  content: "//";
+  color: var(--cyber-pink);
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover::before, .nav-link:focus::before, .nav-link.active::before {
+  bottom: 0;
+  opacity: 1;
+}
+
+.main-content {
+  margin-left: 50px;
+  width: calc(100% - 50px);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Special name style without reflection */
+.cyber-name {
+  position: relative;
+  color: var(--cyber-blue);
+  font-weight: 900;
+  font-family: var(--font-orbitron);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  -webkit-text-stroke: 1px #00f0ff;
+}
