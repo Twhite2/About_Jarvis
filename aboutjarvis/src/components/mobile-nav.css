@@ -1,0 +1,268 @@
+/* Mobile Nav Styles with Cyberpunk Theme */
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1500;
+  background: rgba(10, 10, 15, 0.8);
+  border: none;
+  border-radius: 5px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  padding: 12px;
+  backdrop-filter: blur(5px);
+  /* Removed box shadow */
+}
+
+/* Light mode toggle styling */
+[data-theme="light"] .mobile-menu-toggle {
+  background: rgba(220, 220, 230, 0.8);
+  /* Removed box shadow */
+}
+
+/* Hamburger Container */
+.hamburger-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hamburger Lines */
+.hamburger-lines {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.line {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--cyber-blue);
+  border-radius: 10px;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  position: relative;
+}
+
+/* Light mode lines color */
+[data-theme="light"] .line {
+  background: var(--cyber-pink);
+}
+
+/* Animate hamburger to X */
+.hamburger-lines.active .line1 {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger-lines.active .line2 {
+  opacity: 0;
+}
+
+.hamburger-lines.active .line3 {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Glowing effect on hover */
+.mobile-menu-toggle:hover .line {
+  box-shadow: 0 0 5px var(--cyber-blue), 0 0 10px var(--cyber-blue);
+}
+
+[data-theme="light"] .mobile-menu-toggle:hover .line {
+  box-shadow: 0 0 5px var(--cyber-pink), 0 0 8px var(--cyber-pink);
+}
+
+/* Circuit decoration */
+.circuit-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+.circuit-line {
+  position: absolute;
+  height: 2px;
+  background: var(--cyber-blue);
+  opacity: 0.5;
+}
+
+[data-theme="light"] .circuit-line {
+  background: var(--cyber-pink);
+}
+
+/* Mobile Nav Menu */
+.mobile-nav-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.mobile-nav-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 10, 0.6);
+  pointer-events: auto;
+}
+
+[data-theme="light"] .mobile-nav-backdrop {
+  background-color: rgba(220, 220, 230, 0.6);
+}
+
+.mobile-nav-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  padding: 40px 20px;
+}
+
+[data-theme="light"] .mobile-nav-content {
+  box-shadow: 0 0 15px rgba(242, 5, 111, 0.15);
+}
+
+/* Circuit patterns around the content */
+.mobile-nav-content::before,
+.mobile-nav-content::after {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--cyber-blue) 25%,
+    var(--cyber-pink) 50%,
+    var(--cyber-blue) 75%,
+    transparent 100%
+  );
+  opacity: 0.7;
+}
+
+.mobile-nav-content::before {
+  top: 15%;
+  left: 20%;
+}
+
+.mobile-nav-content::after {
+  bottom: 15%;
+  right: 20%;
+}
+
+[data-theme="light"] .mobile-nav-content::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--cyber-pink) 20%,
+    var(--cyber-blue) 50%,
+    var(--cyber-pink) 80%,
+    transparent 100%
+  );
+}
+
+/* Mobile Nav Links */
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 20px;
+}
+
+.mobile-nav-link {
+  position: relative;
+  color: var(--foreground);
+  font-family: var(--font-orbitron);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 22px;
+  text-decoration: none;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:focus,
+.mobile-nav-link.active {
+  color: var(--cyber-blue);
+}
+
+[data-theme="light"] .mobile-nav-link:hover,
+[data-theme="light"] .mobile-nav-link:focus,
+[data-theme="light"] .mobile-nav-link.active {
+  color: var(--cyber-pink);
+}
+
+.nav-line {
+  height: 2px;
+  width: 0;
+  background: var(--cyber-blue);
+  transition: width 0.5s ease;
+  margin-top: 8px;
+  box-shadow: 0 0 5px var(--cyber-blue);
+}
+
+[data-theme="light"] .nav-line {
+  background: var(--cyber-pink);
+}
+
+.mobile-nav-link:hover .nav-line,
+.mobile-nav-link:focus .nav-line,
+.mobile-nav-link.active .nav-line {
+  width: 100%;
+  box-shadow: 0 0 5px var(--cyber-blue);
+}
+
+[data-theme="light"] .mobile-nav-link:hover .nav-line,
+[data-theme="light"] .mobile-nav-link:focus .nav-line,
+[data-theme="light"] .mobile-nav-link.active .nav-line {
+  box-shadow: 0 0 5px var(--cyber-pink);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .vertical-nav {
+    display: none; /* Hide vertical navbar on mobile */
+  }
+  
+  .mobile-menu-toggle {
+    display: flex; /* Show mobile menu button */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .main-content {
+    margin-left: 0; /* Reset margin that was set for desktop */
+    width: 100%; /* Full width */
+  }
+}

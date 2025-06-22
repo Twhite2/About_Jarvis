@@ -9,10 +9,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text3D, Float, PerspectiveCamera } from "@react-three/drei";
 import AnimatedButton from "../components/AnimatedButton";
 import ThemeToggle from "../components/ThemeToggle";
+import MobileNav from '../components/MobileNav';
 
 // Import styles
 import "./animated-button.css";
 import "../components/theme-toggle.css";
+import "../components/mobile-nav.css";
 
 // 3D Model components for projects
 const PyramidModel = () => {
@@ -23,9 +25,9 @@ const PyramidModel = () => {
   });
 
   return (
-    <mesh ref={meshRef} scale={1.5}>
+    <mesh ref={meshRef} rotation={[0, Math.PI / 4, 0]} scale={[1.5, 1.5, 1.5]}>
       <tetrahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#61dbfb" wireframe />
+      <meshStandardMaterial color="#00f0ff" emissive="#00f0ff" emissiveIntensity={0.5} wireframe />
     </mesh>
   );
 };
@@ -152,7 +154,6 @@ const chineseChars = [
 
 const finalName = "Frank-Opigo A. Emmanuel";
 
-
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({x: -100, y: -100});
   const [cursorVariant, setCursorVariant] = useState("default");
@@ -271,11 +272,10 @@ export default function Home() {
   
   return (
     <div className="relative min-h-screen bg-background text-foreground">
-      {/* Theme Toggle */}
-      <ThemeToggle 
-        initialTheme={currentTheme} 
-        onThemeChange={handleThemeChange} 
-      />
+      <ThemeToggle initialTheme={currentTheme} onThemeChange={handleThemeChange} />
+      
+      {/* Mobile Navigation */}
+      <MobileNav activeSection={activeSection} setCursorVariant={setCursorVariant} />
       
       <motion.div 
         className="cursor-follower"
@@ -284,7 +284,7 @@ export default function Home() {
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
       
-      {/* Vertical Navbar */}
+      {/* Vertical Navbar - Desktop Only */}
       <nav className="vertical-nav">
         <ul className="flex flex-col h-full justify-center space-y-16">
           <li>

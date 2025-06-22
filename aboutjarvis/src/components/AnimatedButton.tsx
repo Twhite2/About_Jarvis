@@ -1,4 +1,6 @@
-import { useState, ReactNode, MouseEventHandler } from "react";
+"use client";
+
+import { useState, ReactNode, MouseEventHandler, useMemo } from "react";
 import { motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 
@@ -43,13 +45,45 @@ export default function AnimatedButton({
     if (onMouseLeave) onMouseLeave();
   };
 
-  // Generate positions for background shapes
-  const shapes = [
-    { id: 1, variant: "circle", size: "20px" },
-    { id: 2, variant: "circle", size: "30px" },
-    { id: 3, variant: "diamond", size: "25px" },
-    { id: 4, variant: "circle", size: "15px" },
-  ];
+  // Generate stable positions for background shapes using useMemo
+  const shapes = useMemo(() => [
+    { 
+      id: 1, 
+      variant: "circle", 
+      size: "20px",
+      initialX: -15,
+      initialY: -20,
+      hoverX: -25,
+      hoverY: -30
+    },
+    { 
+      id: 2, 
+      variant: "circle", 
+      size: "30px",
+      initialX: 20,
+      initialY: -15,
+      hoverX: 30,
+      hoverY: -25
+    },
+    { 
+      id: 3, 
+      variant: "diamond", 
+      size: "25px",
+      initialX: -10,
+      initialY: 25,
+      hoverX: -20,
+      hoverY: 35
+    },
+    { 
+      id: 4, 
+      variant: "circle", 
+      size: "15px",
+      initialX: 15,
+      initialY: 15,
+      hoverX: 25,
+      hoverY: 25
+    },
+  ], []);
 
   const buttonContent = (
     <motion.button
@@ -79,19 +113,19 @@ export default function AnimatedButton({
               background: index % 2 === 0 ? primaryColor : secondaryColor,
               position: "absolute",
               borderRadius: shape.variant === "circle" ? "50%" : "0",
-              transform: shape.variant === "diamond" ? "rotate(45deg)" : "none",
               opacity: 0.8
             }}
             initial={{
-              x: (Math.random() - 0.5) * 60,
-              y: (Math.random() - 0.5) * 60,
+              x: shape.initialX,
+              y: shape.initialY,
               scale: 0,
               rotate: shape.variant === "diamond" ? 45 : 0
             }}
             animate={isHover ? {
-              x: (Math.random() - 0.5) * 100,
-              y: (Math.random() - 0.5) * 100,
+              x: shape.hoverX,
+              y: shape.hoverY,
               scale: 1,
+              rotate: shape.variant === "diamond" ? 45 : 0,
               transition: {
                 duration: 0.8,
                 repeat: Infinity,
@@ -99,7 +133,10 @@ export default function AnimatedButton({
                 ease: "easeInOut"
               }
             } : {
-              scale: 0
+              x: shape.initialX,
+              y: shape.initialY,
+              scale: 0,
+              rotate: shape.variant === "diamond" ? 45 : 0
             }}
           />
         ))}
