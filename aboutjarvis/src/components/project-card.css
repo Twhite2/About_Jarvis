@@ -1,0 +1,316 @@
+/* Project Card Styling */
+.project-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  min-height: 400px;
+  margin-bottom: 6rem;
+}
+
+/* Alternate project cards (even items) */
+.project-card:nth-child(even) {
+  grid-template-columns: 1fr 1fr;
+  direction: rtl;
+}
+
+.project-card:nth-child(even) .project-content {
+  direction: ltr;
+}
+
+.project-card:nth-child(even) .project-image {
+  direction: ltr;
+}
+
+/* Project number styling */
+.project-number {
+  font-family: var(--font-orbitron);
+  color: var(--cyber-blue);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.project-number::before {
+  content: '';
+  height: 1px;
+  width: 3rem;
+  background: var(--cyber-blue);
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+[data-theme="light"] .project-number {
+  color: var(--cyber-pink);
+}
+
+[data-theme="light"] .project-number::before {
+  background: var(--cyber-pink);
+}
+
+/* Project content styling */
+.project-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 10;
+}
+
+.project-title {
+  font-family: var(--font-orbitron);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.project-description {
+  color: var(--secondary);
+  margin-bottom: 2rem;
+  max-width: 90%;
+}
+
+/* Project image container */
+.project-image {
+  position: relative;
+  overflow: visible;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Screenshot container */
+.project-screenshot-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Project screenshot */
+.project-screenshot {
+  object-fit: cover !important;
+  object-position: center top !important;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Device mockups */
+.device-mockup {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  z-index: 10;
+  width: 90%;
+  overflow: hidden;
+  will-change: transform;
+  transition: transform 0.3s ease;
+}
+
+/* Apply hover effect */
+.device-mockup:hover {
+  transform: translateY(-10px) rotateX(5deg);
+}
+
+/* Laptop mockup */
+.device-mockup.laptop {
+  width: 90%;
+  aspect-ratio: 16/10;
+  border-radius: 12px 12px 2px 2px;
+  background: #2a2a2e;
+  padding: 10px 10px 40px 10px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.device-mockup.laptop:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: -10%;
+  width: 120%;
+  height: 20px;
+  background: #222;
+  border-radius: 0 0 10px 10px;
+  transform: perspective(500px) rotateX(5deg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Phone mockup */
+.device-mockup.phone {
+  width: 60%;
+  aspect-ratio: 9/16;
+  border-radius: 30px;
+  background: #2a2a2e;
+  padding: 15px 8px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.device-mockup.phone:before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 5px;
+  background: #000;
+  border-radius: 10px;
+  z-index: 20;
+}
+
+/* Tablet mockup */
+.device-mockup.tablet {
+  width: 75%;
+  aspect-ratio: 4/3;
+  border-radius: 15px;
+  background: #2a2a2e;
+  padding: 15px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* Device screen */
+.device-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+/* Phone screen specific */
+.device-mockup.phone .device-screen {
+  border-radius: 20px;
+}
+
+/* Project screenshot */
+.project-screenshot {
+  border-radius: 3px;
+  transition: transform 0.5s ease;
+}
+
+.device-mockup:hover .project-screenshot {
+  transform: scale(1.05);
+}
+
+/* Device reflection overlay */
+.device-reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 40%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .device-mockup {
+  background: #3a3a3e;
+}
+
+[data-theme="light"] .device-mockup.laptop:after {
+  background: #333;
+}
+
+[data-theme="light"] .device-mockup .device-screen {
+  background: #1a1a1a;
+}
+
+/* View project button */
+.view-project-btn {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-orbitron);
+  color: var(--cyber-blue);
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--cyber-blue);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.view-project-btn span {
+  z-index: 10;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-project-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.view-project-btn:hover svg {
+  transform: translateX(5px);
+}
+
+.view-project-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--cyber-blue);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.view-project-btn:hover {
+  color: var(--background);
+}
+
+.view-project-btn:hover::before {
+  left: 0;
+}
+
+[data-theme="light"] .view-project-btn {
+  color: var(--cyber-pink);
+  border-color: var(--cyber-pink);
+}
+
+[data-theme="light"] .view-project-btn::before {
+  background: var(--cyber-pink);
+}
+
+/* Chinese symbols styling */
+.chinese-symbol {
+  position: absolute;
+  opacity: 0.15;
+  font-family: serif;
+  pointer-events: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 1024px) {
+  .project-card,
+  .project-card:nth-child(even) {
+    grid-template-columns: 1fr;
+    direction: ltr;
+  }
+  
+  .project-image {
+    height: 300px;
+  }
+  
+  .project-title {
+    font-size: 2rem;
+  }
+}

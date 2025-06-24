@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import HeroBackground from "../components/HeroBackground";
 import { TypeAnimation } from "react-type-animation";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -10,11 +11,8 @@ import { OrbitControls, Text3D, Float, PerspectiveCamera } from "@react-three/dr
 import AnimatedButton from "../components/AnimatedButton";
 import ThemeToggle from "../components/ThemeToggle";
 import MobileNav from '../components/MobileNav';
-
-// Import styles
-import "./animated-button.css";
-import "../components/theme-toggle.css";
-import "../components/mobile-nav.css";
+import ProjectCard from '@/components/ProjectCard';
+import '@/components/project-card.css';
 
 // 3D Model components for projects
 const PyramidModel = () => {
@@ -152,6 +150,16 @@ const chineseChars = [
   "伊曼纽尔" // Emmanuel
 ];
 
+// Chinese symbols for projects
+const projectSymbols = {
+  payment: "支付", // Payment
+  interface: "界面", // Interface
+  recognition: "识别", // Recognition
+  crypto: "加密", // Crypto
+  ai: "人工智能", // AI
+  web: "网络" // Web
+};
+
 const finalName = "Frank-Opigo A. Emmanuel";
 
 export default function Home() {
@@ -240,15 +248,23 @@ export default function Home() {
   }, []);
 
 
+  // Optimize cursor animation with debounced/throttled updates
   useEffect(() => {
+    let lastUpdate = 0;
+    const updateThreshold = 10; // ms between updates (throttling)
+    
     const mouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastUpdate < updateThreshold) return;
+      
+      lastUpdate = now;
       setMousePosition({
         x: e.clientX,
         y: e.clientY
       });
     };
 
-    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mousemove", mouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", mouseMove);
@@ -281,7 +297,14 @@ export default function Home() {
         className="cursor-follower"
         variants={variants}
         animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+        initial={false}
+        transition={{ 
+          type: "tween", 
+          ease: "linear", 
+          duration: 0,
+          x: { duration: 0, delay: 0 },
+          y: { duration: 0, delay: 0 }
+        }}
       />
       
       {/* Vertical Navbar - Desktop Only */}
@@ -332,9 +355,10 @@ export default function Home() {
 
       <main className="main-content px-6 sm:px-12 md:px-20 py-20">
         {/* Hero Section with Chinese Character Animation */}
-        <section id="hero" className="min-h-[60vh] flex flex-col justify-center">
+        <section id="hero" className="min-h-[60vh] flex flex-col justify-center relative">
+          <HeroBackground currentTheme={currentTheme} />
           <motion.h1 
-            className="text-4xl sm:text-6xl md:text-7xl mb-4"
+            className="text-4xl sm:text-6xl md:text-7xl mb-4 relative z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -386,196 +410,192 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20">
-          <h2 className="text-3xl sm:text-4xl mb-10 cyber-heading">Featured Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {/* Project 1 */}
-            <div className="bg-[var(--subtle-bg)] rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <div className="mb-6 h-48 rounded-md overflow-hidden bg-[var(--background)]">
-                <Canvas>
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                  <Suspense fallback={null}>
-                    <PyramidModel />
-                    <OrbitControls enableZoom={false} autoRotate />
-                  </Suspense>
-                </Canvas>
-              </div>
-              <h3 className="text-xl mb-2 cyber-project">3D Interface using Trame and VTK</h3>
-              <p className="text-[var(--secondary)] mb-4">An interactive 3D interface built with Trame and VTK using Python, allowing users to import, visualize and explore complex geometries or simulation data directly in the browser.</p>
-              <div className="text-sm text-[var(--secondary)] mb-2">01/2025 - 03/2025</div>
-              <a 
-                href="https://github.com/Twhite2" 
-                className="text-primary hover:underline"
-                onMouseEnter={() => setCursorVariant("text")}
-                onMouseLeave={() => setCursorVariant("default")}
-              >
-                View project
-              </a>
-            </div>
-            
-            {/* Project 2 */}
-            <div className="bg-[var(--subtle-bg)] rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <div className="mb-6 h-48 rounded-md overflow-hidden bg-[var(--background)]">
-                <Canvas>
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                  <Suspense fallback={null}>
-                    <CubeModel />
-                    <OrbitControls enableZoom={false} autoRotate />
-                  </Suspense>
-                </Canvas>
-              </div>
-              <h3 className="text-xl mb-2 cyber-project">Face Recognition Application</h3>
-              <p className="text-[var(--secondary)] mb-4">A basic face recognition application built with Python and OpenCV that can detect and identify faces in real-time from images or a webcam feed.</p>
-              <a 
-                href="https://github.com/Twhite2" 
-                className="text-primary hover:underline"
-                onMouseEnter={() => setCursorVariant("text")}
-                onMouseLeave={() => setCursorVariant("default")}
-              >
-                View project
-              </a>
-            </div>
-            
-            {/* Project 3 */}
-            <div className="bg-[var(--subtle-bg)] rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <div className="mb-6 h-48 rounded-md overflow-hidden bg-[var(--background)]">
-                <Canvas>
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                  <Suspense fallback={null}>
-                    <SphereModel />
-                    <OrbitControls enableZoom={false} autoRotate />
-                  </Suspense>
-                </Canvas>
-              </div>
-              <h3 className="text-xl mb-2 cyber-project">Openfoam GUI for Simulation</h3>
-              <p className="text-[var(--secondary)] mb-4">A graphical user interface (GUI) for OpenFOAM that simplifies setting up, running, and visualizing CFD simulations without needing to use the command line.</p>
-              <div className="text-sm text-[var(--secondary)] mb-2">03/2025 - 05/2025</div>
-              <a 
-                href="https://github.com/Twhite2" 
-                className="text-primary hover:underline"
-                onMouseEnter={() => setCursorVariant("text")}
-                onMouseLeave={() => setCursorVariant("default")}
-              >
-                View project
-              </a>
-            </div>
-            
-            {/* Project 4 */}
-            <div className="bg-[var(--subtle-bg)] rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <div className="mb-6 h-48 rounded-md overflow-hidden bg-[var(--background)]">
-                <Canvas>
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                  <Suspense fallback={null}>
-                    <TorusModel />
-                    <OrbitControls enableZoom={false} autoRotate />
-                  </Suspense>
-                </Canvas>
-              </div>
-              <h3 className="text-xl mb-2 cyber-project">AirBNB Clone (Flask/Python)</h3>
-              <p className="text-[var(--secondary)] mb-4">A basic clone of the Airbnb platform built with Flask (Python), featuring user authentication, property listings, and booking functionality.</p>
-              <div className="text-sm text-[var(--secondary)] mb-2">09/2022 - 11/2022</div>
-              <a 
-                href="https://github.com/Twhite2" 
-                className="text-primary hover:underline"
-                onMouseEnter={() => setCursorVariant("text")}
-                onMouseLeave={() => setCursorVariant("default")}
-              >
-                View project
-              </a>
-            </div>
-            
-            {/* Project 5 */}
-            <div className="bg-[var(--subtle-bg)] rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <div className="mb-6 h-48 rounded-md overflow-hidden bg-[var(--background)]">
-                <Canvas>
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                  <Suspense fallback={null}>
-                    <OctahedronModel />
-                    <OrbitControls enableZoom={false} autoRotate />
-                  </Suspense>
-                </Canvas>
-              </div>
-              <h3 className="text-xl mb-2 cyber-project">MERN Chat App</h3>
-              <p className="text-[var(--secondary)] mb-4">A real-time chat application built with the MERN stack (MongoDB, Express, React, Node.js) with messaging functionality.</p>
-              <a 
-                href="https://github.com/Twhite2" 
-                className="text-primary hover:underline"
-                onMouseEnter={() => setCursorVariant("text")}
-                onMouseLeave={() => setCursorVariant("default")}
-              >
-                View project
-              </a>
-            </div>
-            
-            {/* Project 6 */}
-            <div className="bg-[var(--subtle-bg)] rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <div className="mb-6 h-48 rounded-md overflow-hidden bg-[var(--background)]">
-                <Canvas>
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                  <Suspense fallback={null}>
-                    <ConeModel />
-                    <OrbitControls enableZoom={false} autoRotate />
-                  </Suspense>
-                </Canvas>
-              </div>
-              <h3 className="text-xl mb-2 cyber-project">E-Commerce Website (Next.js)</h3>
-              <p className="text-[var(--secondary)] mb-4">An e-commerce platform built using Next.js with product listings, cart functionality, and checkout process.</p>
-              <a 
-                href="https://github.com/Twhite2" 
-                className="text-primary hover:underline"
-                onMouseEnter={() => setCursorVariant("text")}
-                onMouseLeave={() => setCursorVariant("default")}
-              >
-                View project
-              </a>
-            </div>
-          </div>
+        <section id="projects" className="py-20 max-w-7xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl mb-16 cyber-heading">Featured Projects</h2>
+          
+          {/* Project 1 - Global Payment Solution */}
+          <ProjectCard
+            number={1}
+            title="A Global Payment Solution"
+            description="Joined a team of engineers in building a cryptocurrency payment platform. Implemented secure wallet integration, multi-currency support, and real-time transaction monitoring with low latency across global markets."
+            projectLink="https://github.com/Twhite2"
+            imageSrc="/images/retailchain.jpg"
+            deviceType="laptop"
+            chineseSymbol={projectSymbols.payment}
+            setCursorVariant={setCursorVariant}
+          />
+          
+          {/* Project 2 - 3D Interface */}
+          <ProjectCard
+            number={2}
+            title="Interactive 3D Interface"
+            description="An interactive 3D interface built with Trame and VTK using Python, allowing users to import, visualize and explore complex geometries or simulation data directly in the browser with intuitive controls."
+            projectLink="https://github.com/Twhite2"
+            imageSrc="/images/3dinterface.png"
+            deviceType="laptop"
+            chineseSymbol={projectSymbols.interface}
+            setCursorVariant={setCursorVariant}
+          />
+          
+
+          
+          {/* Project 4 - Blockchain Token */}
+          <ProjectCard
+            number={4}
+            title="Blockchain Token Development"
+            description="Created and deployed an ERC-20 compliant token on Ethereum with smart contracts written in Solidity. The project includes built-in mechanisms for voting, staking, and deflationary tokenomics."
+            projectLink="https://github.com/Twhite2"
+            imageSrc="/images/projects/project1.svg"
+            deviceType="laptop"
+            chineseSymbol={projectSymbols.crypto}
+            setCursorVariant={setCursorVariant}
+          />
+          
+          {/* Project 5 */}
+          <ProjectCard
+            number={5}
+            title="MERN Chat Application"
+            description="A real-time chat application built with the MERN stack (MongoDB, Express, React, Node.js) with messaging functionality. Features include user authentication, group chats, and message encryption."
+            projectLink="https://github.com/Twhite2"
+            imageSrc="/images/mernchat.png"
+            deviceType="laptop"
+            chineseSymbol={projectSymbols.web}
+            setCursorVariant={setCursorVariant}
+          />
         </section>
         
         {/* About Section */}
-        <section id="about" className="py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-10">About Me</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div>
-              <p className="text-lg mb-6">
-                Hey, I'm Frank, software developer with 6 years of experience, some people know me as Jarvis. I'm driven by
-                my passion for continuous learning and staying updated in this dynamic field. I believe my dedication to
-                learning and my commitment to applying new knowledge can contribute to delivering exceptional results in
-                this role, and to be less official. I just enjoy building things. So I take the extra hours to figure things out.
-              </p>
-              <p className="text-lg mb-6">
-                My professional experience includes roles as a Junior Frontend Developer at Niger Delta University/ICT Centre,
-                Smart Contract Developer/Tech Lead at Incrypto-Encrypted, and Desktop Developer at Feasibility Giant Company Ltd.
-              </p>
-              <p className="text-lg mb-6">
-                I hold a Bachelor of Science in Computer Science from Niger Delta University and completed the ALX Software
-                Engineering Program with Backend Specialization.
-              </p>
-              <div className="mt-8">
-                <h3 className="font-bold text-xl mb-4">Skills</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">JavaScript/TypeScript</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">Vue 3, React, Next.js</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">Python</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">Flask</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">C++</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">SQL (MySQL/MongoDB)</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">PHP</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm">Rust</div>
+        <section id="about" className="py-20 relative overflow-hidden bg-black text-white">
+          <div className="absolute top-10 right-10 opacity-10 text-8xl font-bold z-0">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 0.8 }}
+              className="relative"
+              transition={{ duration: 0.5 }}
+            >
+              <span className="block text-gray-500">关于</span>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-3xl mt-2 font-normal text-gray-500"
+            >
+              ABOUT ME
+            </motion.div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10 max-w-6xl mx-auto px-4">
+            <div className="about-content">
+              <motion.h2 
+                className="text-3xl sm:text-5xl font-bold mb-6 flex items-center"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+              >
+                <span className="text-[var(--cyber-pink)]">//</span> <span>
+                  <span className="text-[var(--cyber-pink)]">{nameState === "chinese" ? "你" : "你"}</span>
+                  {nameState === "chinese" ? "" : "HI THERE"}
+                </span>
+              </motion.h2>
+              <motion.p 
+                className="text-lg mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                I'm Samuel Tuinperi, I live in Lagos - Nigeria where
+                I currently work as a React Developer at 
+                <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">EverFinance</a>.
+              </motion.p>
+              
+              <motion.p 
+                className="text-lg mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                My projects include React-js and Next-js with a growing knowledge in Vue-js and
+                Nuxt-js. Being comfortable with code allows me to rapidly prototype and validate experiences. If
+                you're interested in the tools and software I use, check out my <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">uses page</a>.
+              </motion.p>
+              
+              <motion.p 
+                className="text-lg mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                In my spare time I like to read book summaries on 
+                <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">Blinkist</a>, watch Sci-Fi and time traveling TV Shows.
+                I'm always down for hearing about new projects, so feel free to drop me a line.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="flex items-center text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">
+                  <motion.span 
+                    initial={{ x: 0 }}
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="mr-2 inline-block"
+                  >
+                    ▶
+                  </motion.span>
+                  <a href="#contact">Send me a message</a>
                 </div>
-              </div>
+              </motion.div>
+              
+              <motion.div 
+                className="mt-10"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                <h3 className="font-bold text-xl mb-4 text-[var(--cyber-blue)]">
+                  <span className="cyber-glitch-1">Skills</span>
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">JavaScript/TypeScript</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">React, Next.js</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">Vue.js, Nuxt.js</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">Python, Flask</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">C++</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">SQL (MySQL/MongoDB)</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">PHP</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">Rust</div>
+                </div>
+              </motion.div>
             </div>
-            <div className="flex items-center justify-center">
-              <div className="relative w-64 h-64 rounded-full overflow-hidden">
-                <div className="absolute inset-0 bg-primary/20 animate-pulse rounded-full"></div>
-                <div className="absolute inset-2 bg-[var(--background)] rounded-full flex items-center justify-center">
-                  <span className="text-3xl font-bold">F</span>
+            
+            <div className="flex items-center justify-center relative">
+              <div className="about-image-container">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 100,
+                    duration: 0.8,
+                    delay: 0.2
+                  }}
+                  className="about-image"
+                >
+                  <Image
+                    src="/images/jarvis.jpeg"
+                    alt="Samuel Tuinperi"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    priority
+                  />
+                  <div className="about-corner-top-right"></div>
+                  <div className="about-corner-bottom-left"></div>
+                </motion.div>
+                <div className="absolute right-0 bottom-0 z-20 opacity-10 text-9xl text-gray-500" style={{ writingMode: 'vertical-rl' }}>
+                  关于
                 </div>
               </div>
             </div>

@@ -47,6 +47,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Hide default cursor */
+html, body, a, button, .vertical-nav, .main-content, section {
+  cursor: none;
+}
+
 /* Theme transition */
 *, *::before, *::after {
   transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, text-shadow 0.5s ease;
@@ -83,31 +88,99 @@ body {
   opacity: 0.9;
 }
 
+/* Animated Button Styles */
+.animated-button-wrapper {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.animated-button {
+  position: relative;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  cursor: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  border: 1px solid var(--cyber-blue);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 0 5px rgba(0, 240, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.animated-button:hover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5), inset 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.animated-button .label {
+  position: relative;
+  z-index: 10;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.animated-button .blush {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0.3;
+}
+
+.animated-button .pink.blush {
+  width: 100px;
+  height: 100px;
+  left: -50px;
+  bottom: -50px;
+}
+
+.animated-button .blue.blush {
+  width: 100px;
+  height: 100px;
+  right: -50px;
+  top: -50px;
+}
+
 /* Softer shadows for buttons in light mode */
-[data-theme="light"] button,
 [data-theme="light"] .animated-button {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 10px rgba(209, 4, 93, 0.3), inset 0 0 5px rgba(209, 4, 93, 0.2);
+  border: 1px solid var(--cyber-pink);
+}
+
+[data-theme="light"] .animated-button:hover {
+  background: rgba(209, 4, 93, 0.1);
+  box-shadow: 0 0 15px rgba(209, 4, 93, 0.4), inset 0 0 10px rgba(209, 4, 93, 0.3);
 }
 
 /* Custom animated cursor styles */
 .cursor-follower {
   position: fixed;
-  background: var(--cyber-blue);
+  background: #333333; /* Darker gray color */
   width: 30px;
   height: 30px;
   border-radius: 50%;
   pointer-events: none;
   mix-blend-mode: exclusion;
-  z-index: 999;
+  z-index: 9999; /* Increased to ensure it's always on top */
   opacity: 0.8;
-  transition: transform 0.2s ease, box-shadow 0.5s ease;
-  box-shadow: 0 0 15px var(--cyber-blue), 0 0 25px var(--cyber-pink);
+  transition: none; /* Removed transition for immediate movement */
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 15px rgba(242, 5, 111, 0.3);
+  /* Added for smoother rendering */
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
-/* Reduced glow for light mode */
+/* Adjusted cursor for light mode */
 [data-theme="light"] .cursor-follower {
-  opacity: 0.6;
-  box-shadow: 0 0 10px var(--cyber-blue), 0 0 15px var(--cyber-pink);
+  background: #555555; /* Slightly lighter gray for light mode */
+  opacity: 0.7;
+  box-shadow: 0 0 8px rgba(0, 149, 168, 0.4), 0 0 12px rgba(209, 4, 93, 0.3);
 }
 
 @media (max-width: 768px) {
@@ -287,4 +360,113 @@ h1, h2, h3 {
   text-transform: uppercase;
   letter-spacing: 2px;
   -webkit-text-stroke: 1px #00f0ff;
+}
+
+/* About Me section cyberpunk styling */
+.cyber-box {
+  box-shadow: 
+    0 0 10px rgba(0, 200, 255, 0.5),
+    0 0 20px rgba(0, 200, 255, 0.3),
+    0 0 30px rgba(0, 200, 255, 0.1);
+  border: 1px solid var(--cyber-blue);
+}
+
+.about-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  height: 100%;
+}
+
+.about-image img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.about-image-container {
+  position: relative;
+  height: 500px;
+  width: 100%;
+}
+
+.about-corner-top-right,
+.about-corner-bottom-left {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+}
+
+.about-corner-top-right {
+  top: 0;
+  right: 0;
+  border-top: 2px solid var(--cyber-blue);
+  border-right: 2px solid var(--cyber-blue);
+}
+
+.about-corner-bottom-left {
+  bottom: 0;
+  left: 0;
+  border-bottom: 2px solid var(--cyber-pink);
+  border-left: 2px solid var(--cyber-pink);
+}
+
+.cyber-glitch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 0, 170, 0.1),
+    rgba(0, 200, 255, 0.1) 2px
+  );
+  animation: glitch 2s linear infinite;
+  pointer-events: none;
+}
+
+.cyber-glitch-1 {
+  display: inline-block;
+  position: relative;
+  animation: glitch-text 3s infinite;
+  text-shadow: 
+    0 0 5px var(--cyber-blue),
+    0 0 10px var(--cyber-blue);
+}
+
+.cyber-glitch-2 {
+  display: inline-block;
+  position: relative;
+  animation: glitch-text-2 2.5s infinite;
+  text-shadow: 
+    0 0 5px var(--cyber-pink),
+    0 0 10px var(--cyber-pink);
+}
+
+@keyframes glitch {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; transform: translate(2px, 1px); }
+  51% { opacity: 0.93; transform: translate(-3px, -2px); }
+  100% { opacity: 1; transform: translate(0); }
+}
+
+@keyframes glitch-text {
+  0% { transform: translate(0); }
+  2% { transform: translate(-3px, 1px); }
+  4% { transform: translate(3px, -1px); }
+  6% { transform: translate(0); }
+  98% { transform: translate(0); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-text-2 {
+  0% { transform: translate(0); }
+  2% { transform: translate(3px, 1px); }
+  4% { transform: translate(-3px, -1px); }
+  6% { transform: translate(0); }
+  98% { transform: translate(0); }
+  100% { transform: translate(0); }
 }

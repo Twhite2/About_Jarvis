@@ -1,0 +1,6 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#1a1a1a" />
+  <text x="400" y="250" font-family="Arial" font-size="24" fill="#00c8ff" text-anchor="middle">Project Image Placeholder</text>
+  <rect x="50" y="50" width="700" height="400" stroke="#00c8ff" stroke-width="2" fill="none" />
+  <circle cx="400" cy="250" r="80" stroke="#ff00aa" stroke-width="2" fill="none" />
+</svg>
