@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import HeroBackground from "../components/HeroBackground";
@@ -12,69 +12,6 @@ import ThemeToggle from "../components/ThemeToggle";
 import MobileNav from '../components/MobileNav';
 import ProjectCard from '@/components/ProjectCard';
 import '@/components/project-card.css';
-
-// 3D Model components for projects
-const PyramidModel = () => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5;
-  });
-
-  return (
-    <mesh ref={meshRef} rotation={[0, Math.PI / 4, 0]} scale={[1.5, 1.5, 1.5]}>
-      <tetrahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#00f0ff" emissive="#00f0ff" emissiveIntensity={0.5} wireframe />
-    </mesh>
-  );
-};
-
-const CubeModel = () => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5;
-    meshRef.current.rotation.x += delta * 0.2;
-  });
-
-  return (
-    <mesh ref={meshRef} scale={1.2}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#f56565" wireframe />
-    </mesh>
-  );
-};
-
-const SphereModel = () => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5;
-  });
-
-  return (
-    <mesh ref={meshRef} scale={1.3}>
-      <sphereGeometry args={[1, 16, 16]} />
-      <meshStandardMaterial color="#805ad5" wireframe />
-    </mesh>
-  );
-};
-
-const TorusModel = () => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5;
-    meshRef.current.rotation.x += delta * 0.3;
-  });
-
-  return (
-    <mesh ref={meshRef} scale={1.1}>
-      <torusGeometry args={[0.7, 0.3, 16, 32]} />
-      <meshStandardMaterial color="#38a169" wireframe />
-    </mesh>
-  );
-};
 
 // Utility functions for animations
 
@@ -307,7 +244,7 @@ export default function Home() {
               onMouseEnter={() => setCursorVariant("text")}
               onMouseLeave={() => setCursorVariant("default")}
             >
-              I'm a <TypeAnimation
+              I&apos;m a <TypeAnimation
                 sequence={[
                   'Software Developer',
                   2000,
@@ -429,7 +366,8 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
               >
                 <span className="text-[var(--cyber-pink)]">//</span> <span>
-                  <span className="text-[var(--cyber-pink)]">{nameState === "chinese" ? "你" : "你"}</span>
+                  <motion.span className="text-[var(--cyber-pink)]">{nameState === "chinese" ? "你" : "你"}</motion.span>
+                  {/* Chinese to English transition */}
                   {nameState === "chinese" ? "" : "HI THERE"}
                 </span>
               </motion.h2>
@@ -452,7 +390,7 @@ export default function Home() {
               >
                 My projects include React-js and Next-js with a growing knowledge in Vue-js and
                 Nuxt-js. Being comfortable with code allows me to rapidly prototype and validate experiences. If
-                you&apos;re interested in the tools and software I use, check out my <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">uses page</a>.
+                It&apos;s a portfolio site built with Next.js, Framer Motion, and TypeScript. I use, check out my <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">uses page</a>.
               </motion.p>
               
               <motion.p 
@@ -543,7 +481,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <p className="text-lg mb-6">
-                I'm always interested in hearing about new projects and opportunities.
+                I&apos;m always interested in hearing about new projects and opportunities.
                 Whether you have a question or just want to say hi, feel free to reach out!
               </p>
               <div className="flex flex-col space-y-4">
