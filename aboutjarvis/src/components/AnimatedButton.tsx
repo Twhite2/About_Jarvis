@@ -26,7 +26,7 @@ export default function AnimatedButton({
   onMouseEnter,
   onMouseLeave
 }: AnimatedButtonProps) {
-  const [ref, bounds] = useMeasure({ scroll: false });
+  const [ref] = useMeasure({ scroll: false });
   const [isHover, setIsHover] = useState(false);
 
   const transition = {

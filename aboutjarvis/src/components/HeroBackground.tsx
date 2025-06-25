@@ -1,8 +1,6 @@
 "use client";
 
-"use client";
-
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import './hero-background.css';
 

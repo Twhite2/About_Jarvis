@@ -3,7 +3,6 @@
 import React from 'react';
 import { motion, Variants, easeOut, easeInOut } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
 import './project-card.css';
 
 interface ProjectCardProps {

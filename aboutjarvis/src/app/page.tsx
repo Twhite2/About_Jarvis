@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo, Suspense } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import HeroBackground from "../components/HeroBackground";
 import { TypeAnimation } from "react-type-animation";
 import * as THREE from "three";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text3D, Float, PerspectiveCamera } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import AnimatedButton from "../components/AnimatedButton";
 import ThemeToggle from "../components/ThemeToggle";
 import MobileNav from '../components/MobileNav';
@@ -77,71 +76,7 @@ const TorusModel = () => {
   );
 };
 
-const OctahedronModel = () => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5;
-    meshRef.current.rotation.z += delta * 0.3;
-  });
-
-  return (
-    <mesh ref={meshRef} scale={1.3}>
-      <octahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#ecc94b" wireframe />
-    </mesh>
-  );
-};
-
-const ConeModel = () => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5;
-  });
-
-  return (
-    <mesh ref={meshRef} scale={1.3}>
-      <coneGeometry args={[1, 2, 32]} />
-      <meshStandardMaterial color="#ed8936" wireframe />
-    </mesh>
-  );
-};
-
-// Top-right animation component
-const FloatingParticles = () => {
-  const groupRef = useRef<THREE.Group>(null!);
-  
-  // Create particles positions - do once outside of component to avoid recreating every render
-  const particlePositions = useMemo(() => {
-    return new Float32Array(Array(300).fill(0).flatMap(() => [
-      (Math.random() - 0.5) * 5,
-      (Math.random() - 0.5) * 5,
-      (Math.random() - 0.5) * 5,
-    ]));
-  }, []);
-  
-  useFrame((state, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.2;
-      groupRef.current.rotation.z += delta * 0.1;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      <points>
-        <bufferGeometry>
-          <bufferAttribute 
-            attach="attributes-position"
-            args={[particlePositions, 3]}
-          />
-        </bufferGeometry>
-        <pointsMaterial size={0.1} color="#61dafb" sizeAttenuation transparent opacity={0.8} />
-      </points>
-    </group>
-  );
-};
+// Utility functions for animations
 
 // Chinese character animation related config
 const chineseChars = [
@@ -193,8 +128,8 @@ export default function Home() {
     else if (nameState === "transition") {
       // Gradually transition characters
       let currentIndex = 0;
-      let finalNameChars = finalName.split("");
-      let mixedName = chineseChars.join(" ").split("");
+      const finalNameChars = finalName.split("");
+      const mixedName = chineseChars.join(" ").split("");
       
       const interval = setInterval(() => {
         if (currentIndex >= finalNameChars.length) {
@@ -504,7 +439,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                I'm Samuel Tuinperi, I live in Lagos - Nigeria where
+                I&apos;m Samuel Tuinperi, I live in Lagos - Nigeria where
                 I currently work as a React Developer at 
                 <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">EverFinance</a>.
               </motion.p>
@@ -517,7 +452,7 @@ export default function Home() {
               >
                 My projects include React-js and Next-js with a growing knowledge in Vue-js and
                 Nuxt-js. Being comfortable with code allows me to rapidly prototype and validate experiences. If
-                you're interested in the tools and software I use, check out my <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">uses page</a>.
+                you&apos;re interested in the tools and software I use, check out my <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">uses page</a>.
               </motion.p>
               
               <motion.p 
@@ -528,7 +463,7 @@ export default function Home() {
               >
                 In my spare time I like to read book summaries on 
                 <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">Blinkist</a>, watch Sci-Fi and time traveling TV Shows.
-                I'm always down for hearing about new projects, so feel free to drop me a line.
+                I&apos;m always down for hearing about new projects, so feel free to drop me a line.
               </motion.p>
               
               <motion.div
