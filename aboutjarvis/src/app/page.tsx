@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import HeroBackground from "../components/HeroBackground";
 import { TypeAnimation } from "react-type-animation";
-import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+
 import AnimatedButton from "../components/AnimatedButton";
 import ThemeToggle from "../components/ThemeToggle";
 import MobileNav from '../components/MobileNav';
@@ -365,8 +364,8 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="text-[var(--cyber-pink)]">//</span> <span>
-                  <motion.span className="text-[var(--cyber-pink)]">{nameState === "chinese" ? "你" : "你"}</motion.span>
+                <span className="text-[var(--cyber-pink)]">{'//'}</span> <span>
+                  <span className="text-[var(--cyber-pink)]">{nameState === "chinese" ? "你" : "你"}</span>
                   {/* Chinese to English transition */}
                   {nameState === "chinese" ? "" : "HI THERE"}
                 </span>
