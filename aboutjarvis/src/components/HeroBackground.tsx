@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import './hero-background.css';
 
@@ -8,7 +8,7 @@ interface HeroBackgroundProps {
   currentTheme: 'dark' | 'light';
 }
 
-const HeroBackground: React.FC<HeroBackgroundProps> = ({ currentTheme }) => {
+const HeroBackground = React.memo<HeroBackgroundProps>(({ currentTheme }) => {
   // Check if user prefers reduced motion
   const prefersReducedMotion = useReducedMotion();
   
@@ -57,7 +57,7 @@ const HeroBackground: React.FC<HeroBackgroundProps> = ({ currentTheme }) => {
     });
   }, [prefersReducedMotion]);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     // Skip effect if user prefers reduced motion
     if (prefersReducedMotion) return;
     
@@ -76,7 +76,7 @@ const HeroBackground: React.FC<HeroBackgroundProps> = ({ currentTheme }) => {
       container.style.setProperty('--mouse-x', x.toString());
       container.style.setProperty('--mouse-y', y.toString());
     });
-  };
+  }, [prefersReducedMotion]);
 
   return (
     <div 
@@ -161,6 +161,9 @@ const HeroBackground: React.FC<HeroBackgroundProps> = ({ currentTheme }) => {
       </svg>
     </div>
   );
-};
+});
+
+// Add display name to fix ESLint error
+HeroBackground.displayName = 'HeroBackground';
 
 export default HeroBackground;

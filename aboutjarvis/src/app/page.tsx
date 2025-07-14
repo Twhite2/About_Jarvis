@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, FormEvent } from "react";
+import emailjs from '@emailjs/browser';
 import Image from "next/image";
 import { motion } from "framer-motion";
 import HeroBackground from "../components/HeroBackground";
@@ -41,8 +42,85 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("hero");
   const [currentTheme, setCurrentTheme] = useState<'dark' | 'light'>('dark');
   
-  // Handle theme change
-  const handleThemeChange = (theme: 'dark' | 'light') => {
+  // Contact form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Initialize EmailJS once when component mounts
+  useEffect(() => {
+    // Initialize EmailJS with your public key
+    emailjs.init({
+      publicKey: "DCSyKs6qBD_MyM4-K", // Replace with your actual public key from EmailJS
+    });
+  }, []);
+
+  // Handle form submission
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus('loading');
+
+    // Your actual EmailJS service ID and template ID
+    const serviceId = 'service_37owx3h'; // Replace with your actual service ID
+    const templateId = 'template_6pjccxy'; // Replace with your actual template ID
+    
+    try {
+      console.log('Sending email with data:', {
+        name: formData.name,
+        email: formData.email,
+        messageLength: formData.message.length
+      });
+      
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          reply_to: formData.email,
+          message: formData.message,
+          to_name: 'Emmanuel' // This should match your template variables
+          // The to_email should be configured in the EmailJS template directly
+        }
+      );
+      
+      setFormStatus('success');
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      });
+      
+      // Reset form status after 5 seconds
+      setTimeout(() => {
+        setFormStatus('idle');
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setFormStatus('error');
+      
+      // Reset error status after 5 seconds
+      setTimeout(() => {
+        setFormStatus('idle');
+      }, 5000);
+    }
+  };
+  
+  // Handle theme change - memoized to prevent unnecessary re-renders
+  const handleThemeChange = useCallback((theme: 'dark' | 'light') => {
     setCurrentTheme(theme);
     
     // Apply transition class to body
@@ -50,7 +128,7 @@ export default function Home() {
     setTimeout(() => {
       document.body.classList.remove('theme-transition');
     }, 500);
-  };
+  }, []);
   
   // Chinese character animation effect with cyberpunk styling
   useEffect(() => {
@@ -376,9 +454,9 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                I&apos;m Samuel Tuinperi, I live in Lagos - Nigeria where
-                I currently work as a React Developer at 
-                <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">EverFinance</a>.
+                I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I currently work as a Desktop Developer at Feasibility Giant Company Ltd.
+                 I’ve also taken on roles as a Smart Contract Developer and Junior Frontend Developer over the years, gaining 6+ years of hands-on experience across web, desktop, and blockchain technologies. 
+               
               </motion.p>
               
               <motion.p 
@@ -387,9 +465,9 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                My projects include React-js and Next-js with a growing knowledge in Vue-js and
-                Nuxt-js. Being comfortable with code allows me to rapidly prototype and validate experiences. If
-                It&apos;s a portfolio site built with Next.js, Framer Motion, and TypeScript. I use, check out my <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">uses page</a>.
+                My main toolkit includes React, Vue 3, Next.js, TypeScript, Tailwind, and Python — 
+                but I&apos;m also comfortable diving into C++, Rust, Flask, SQL, and even low-level graphics with OpenGL and VTK.
+                I&apos;ve built things ranging from Web3 social networks on the NEAR Protocol to a GUI for OpenFOAM CFD simulations and even a 3D visualization tool using Trame and VTK.
               </motion.p>
               
               <motion.p 
@@ -398,9 +476,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                In my spare time I like to read book summaries on 
-                <a href="#" className="text-[var(--cyber-blue)] hover:text-[var(--cyber-pink)] transition-colors">Blinkist</a>, watch Sci-Fi and time traveling TV Shows.
-                I&apos;m always down for hearing about new projects, so feel free to drop me a line.
+                When I&apos;m not coding, you&apos;ll probably find me exploring sci-fi concepts or brushing up on new ideas through online courses and deep dives.
+                 I&apos;m always excited to collaborate on interesting projects, so feel free to reach out.
               </motion.p>
               
               <motion.div
@@ -533,14 +610,18 @@ export default function Home() {
               </div>
             </div>
             <div className="bg-[var(--subtle-bg)] rounded-lg p-6">
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
                   <input 
                     type="text" 
                     id="name" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                     className="w-full p-3 border border-[var(--border)] rounded-lg bg-[var(--background)] focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Your name"
+                    required
                   />
                 </div>
                 <div className="mb-4">
@@ -548,26 +629,45 @@ export default function Home() {
                   <input 
                     type="email" 
                     id="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="w-full p-3 border border-[var(--border)] rounded-lg bg-[var(--background)] focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
                   <textarea 
                     id="message" 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     rows={4} 
                     className="w-full p-3 border border-[var(--border)] rounded-lg bg-[var(--background)] focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Your message"
+                    required
                   ></textarea>
                 </div>
+                {formStatus === 'error' && (
+                  <div className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+                    Failed to send message. Please try again later.
+                  </div>
+                )}
+                {formStatus === 'success' && (
+                  <div className="mb-4 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
+                    Message sent successfully! I&apos;ll get back to you soon.
+                  </div>
+                )}
                 <button 
                   type="submit" 
-                  className="bg-primary text-white py-3 px-6 rounded-lg hover:bg-accent transition-colors w-full"
+                  disabled={formStatus === 'loading'}
+                  className={`bg-primary text-white py-3 px-6 rounded-lg hover:bg-accent transition-colors w-full ${formStatus === 'loading' ? 'opacity-70 cursor-not-allowed' : ''}`}
                   onMouseEnter={() => setCursorVariant("text")}
                   onMouseLeave={() => setCursorVariant("default")}
                 >
-                  Send Message
+                  {formStatus === 'loading' ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
