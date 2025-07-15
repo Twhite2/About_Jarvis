@@ -454,7 +454,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I currently work as a Desktop Developer at Feasibility Giant Company Ltd.
+                I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I last worked as a Desktop Developer at Feasibility Giant Company Ltd.
                  I’ve also taken on roles as a Smart Contract Developer and Junior Frontend Developer over the years, gaining 6+ years of hands-on experience across web, desktop, and blockchain technologies. 
                
               </motion.p>
