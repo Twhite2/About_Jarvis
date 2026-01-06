@@ -298,18 +298,19 @@ h1, h2, h3 {
   left: 0;
   top: 0;
   height: 100vh;
-  width: 50px;
+  width: 80px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 0;
+  padding: 4rem 0;
+  overflow: hidden;
 }
 
 .nav-link {
   position: relative;
-  padding: 1.5rem 0;
-  margin: 1rem 0;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
   color: #666;
   font-weight: 500;
   letter-spacing: 2px;
@@ -317,6 +318,7 @@ h1, h2, h3 {
   transform: rotate(180deg);
   font-family: var(--font-orbitron);
   transition: all 0.3s;
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link:focus {
@@ -332,21 +334,22 @@ h1, h2, h3 {
   content: "//";
   color: var(--cyber-pink);
   position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  right: -30px;
+  transform: translateY(-50%) rotate(90deg);
   opacity: 0;
   transition: all 0.3s ease;
+  font-size: 0.9em;
 }
 
 .nav-link:hover::before, .nav-link:focus::before, .nav-link.active::before {
-  bottom: 0;
+  right: -15px;
   opacity: 1;
 }
 
 .main-content {
-  margin-left: 50px;
-  width: calc(100% - 50px);
+  margin-left: 80px;
+  width: calc(100% - 80px);
   min-height: 100vh;
   position: relative;
 }

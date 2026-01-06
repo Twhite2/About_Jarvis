@@ -258,7 +258,7 @@ export default function Home() {
       
       {/* Vertical Navbar - Desktop Only */}
       <nav className="vertical-nav">
-        <ul className="flex flex-col h-full justify-center space-y-16">
+        <ul className="flex flex-col h-full justify-center space-y-8">
           <li>
             <a 
               href="#hero" 
@@ -454,8 +454,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I last worked as a Desktop Developer at Feasibility Giant Company Ltd.
-                 I’ve also taken on roles as a Smart Contract Developer and Junior Frontend Developer over the years, gaining 6+ years of hands-on experience across web, desktop, and blockchain technologies. 
+                I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I last worked as a Desktop Developer at Feasibility Giant Company Ltd. Over the years, I&apos;ve also taken on roles as a Smart Contract Developer and Junior Frontend Developer, giving me 6+ years of hands-on experience across web, desktop, and blockchain technologies. 
                
               </motion.p>
               
@@ -465,9 +464,16 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                My main toolkit includes React, Vue 3, Next.js, TypeScript, Tailwind, and Python — 
-                but I&apos;m also comfortable diving into C++, Rust, Flask, SQL, and even low-level graphics with OpenGL and VTK.
-                I&apos;ve built things ranging from Web3 social networks on the NEAR Protocol to a GUI for OpenFOAM CFD simulations and even a 3D visualization tool using Trame and VTK.
+                From September through January, I worked extensively on a full-scale Electronic Medical Records (EMR) system, contributing across both frontend and backend. My work included building and refining core clinical workflows (patient records, visits, vitals, nursing notes, and visit status logic), implementing role-based access and permissions, and improving UI/UX for real-world hospital use. I also worked on HMO and medical insurance tracking, helping address inefficiencies in how patient coverage, approvals, and billing data are handled. This experience pushed me to think deeply about data integrity, auditability, and usability in high-impact healthcare systems.
+              </motion.p>
+              
+              <motion.p 
+                className="text-lg mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+              >
+                My main toolkit includes React, Vue 3, Next.js, TypeScript, Tailwind, and Python — but I&apos;m also comfortable diving into C++, Rust, Flask, SQL, and even low-level graphics with OpenGL and VTK. I&apos;ve built things ranging from Web3 social networks on the NEAR Protocol to a GUI for OpenFOAM CFD simulations, a 3D visualization tool using Trame and VTK, and production-grade internal tools.
               </motion.p>
               
               <motion.p 
@@ -476,8 +482,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                When I&apos;m not coding, you&apos;ll probably find me exploring sci-fi concepts or brushing up on new ideas through online courses and deep dives.
-                 I&apos;m always excited to collaborate on interesting projects, so feel free to reach out.
+                When I&apos;m not coding, you&apos;ll probably find me exploring sci-fi concepts or brushing up on new ideas through online courses and deep dives. I&apos;m always excited to collaborate on meaningful, technically challenging projects — feel free to reach out.
               </motion.p>
               
               <motion.div
@@ -507,15 +512,15 @@ export default function Home() {
                 <h3 className="font-bold text-xl mb-4 text-[var(--cyber-blue)]">
                   <span className="cyber-glitch-1">Skills</span>
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">JavaScript/TypeScript</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">React, Next.js</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">Vue.js, Nuxt.js</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">Python, Flask</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">C++</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">SQL (MySQL/MongoDB)</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">PHP</div>
-                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors">Rust</div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">JavaScript/TypeScript</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">React, Next.js</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">Vue.js, Nuxt.js</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">Python, Flask</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">C++</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">SQL (MySQL/MongoDB)</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">PHP</div>
+                  <div className="bg-[var(--subtle-bg)] px-3 py-2 rounded-md text-sm border border-[var(--cyber-blue)] hover:border-[var(--cyber-pink)] transition-colors text-center break-words">Rust</div>
                 </div>
               </motion.div>
             </div>
