@@ -41,6 +41,12 @@ export default function Home() {
   const [nameText, setNameText] = useState("");
   const [activeSection, setActiveSection] = useState("hero");
   const [currentTheme, setCurrentTheme] = useState<'dark' | 'light'>('dark');
+  const [openFaqSections, setOpenFaqSections] = useState<{[key: string]: boolean}>({
+    background: false,
+    experience: false,
+    skills: false,
+    interests: false
+  });
   
   // Contact form state
   const [formData, setFormData] = useState({
@@ -129,6 +135,14 @@ export default function Home() {
       document.body.classList.remove('theme-transition');
     }, 500);
   }, []);
+  
+  // Toggle FAQ section
+  const toggleFaqSection = (section: string) => {
+    setOpenFaqSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
   
   // Chinese character animation effect with cyberpunk styling
   useEffect(() => {
@@ -444,46 +458,137 @@ export default function Home() {
               >
                 <span className="text-[var(--cyber-pink)]">{'//'}</span> <span>
                   <span className="text-[var(--cyber-pink)]">{nameState === "chinese" ? "你" : "你"}</span>
-                  {/* Chinese to English transition */}
                   {nameState === "chinese" ? "" : "HI THERE"}
                 </span>
               </motion.h2>
-              <motion.p 
-                className="text-lg mb-6"
+              
+              {/* FAQ Section 1 - Background */}
+              <motion.div 
+                className="mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I last worked as a Desktop Developer at Feasibility Giant Company Ltd. Over the years, I&apos;ve also taken on roles as a Smart Contract Developer and Junior Frontend Developer, giving me 6+ years of hands-on experience across web, desktop, and blockchain technologies. 
-               
-              </motion.p>
+                <button
+                  onClick={() => toggleFaqSection('background')}
+                  className="w-full text-left border border-[var(--cyber-blue)] rounded-lg p-4 hover:border-[var(--cyber-pink)] transition-colors flex justify-between items-center group"
+                  onMouseEnter={() => setCursorVariant("text")}
+                  onMouseLeave={() => setCursorVariant("default")}
+                >
+                  <h3 className="text-xl font-semibold text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-colors">
+                    Who am I and what&apos;s my background?
+                  </h3>
+                  <span className="text-2xl text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-all transform">
+                    {openFaqSections.background ? '−' : '+'}
+                  </span>
+                </button>
+                <motion.div
+                  initial={false}
+                  animate={{ height: openFaqSections.background ? 'auto' : 0, opacity: openFaqSections.background ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-4 text-lg border-x border-b border-[var(--cyber-blue)] rounded-b-lg">
+                    I&apos;m Emmanuel Frank-Opigo, but some people know me as Jarvis. I live in Lagos, Nigeria, where I last worked as a Desktop Developer at Feasibility Giant Company Ltd. Over the years, I&apos;ve also taken on roles as a Smart Contract Developer and Junior Frontend Developer, giving me 6+ years of hands-on experience across web, desktop, and blockchain technologies.
+                  </div>
+                </motion.div>
+              </motion.div>
               
-              <motion.p 
-                className="text-lg mb-6"
+              {/* FAQ Section 2 - Recent Experience */}
+              <motion.div 
+                className="mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                From September through January, I worked extensively on a full-scale Electronic Medical Records (EMR) system, contributing across both frontend and backend. My work included building and refining core clinical workflows (patient records, visits, vitals, nursing notes, and visit status logic), implementing role-based access and permissions, and improving UI/UX for real-world hospital use. I also worked on HMO and medical insurance tracking, helping address inefficiencies in how patient coverage, approvals, and billing data are handled. This experience pushed me to think deeply about data integrity, auditability, and usability in high-impact healthcare systems.
-              </motion.p>
+                <button
+                  onClick={() => toggleFaqSection('experience')}
+                  className="w-full text-left border border-[var(--cyber-blue)] rounded-lg p-4 hover:border-[var(--cyber-pink)] transition-colors flex justify-between items-center group"
+                  onMouseEnter={() => setCursorVariant("text")}
+                  onMouseLeave={() => setCursorVariant("default")}
+                >
+                  <h3 className="text-xl font-semibold text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-colors">
+                    What have I worked on recently?
+                  </h3>
+                  <span className="text-2xl text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-all transform">
+                    {openFaqSections.experience ? '−' : '+'}
+                  </span>
+                </button>
+                <motion.div
+                  initial={false}
+                  animate={{ height: openFaqSections.experience ? 'auto' : 0, opacity: openFaqSections.experience ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-4 text-lg border-x border-b border-[var(--cyber-blue)] rounded-b-lg">
+                    From September through January, I worked extensively on a full-scale Electronic Medical Records (EMR) system, contributing across both frontend and backend. My work included building and refining core clinical workflows (patient records, visits, vitals, nursing notes, and visit status logic), implementing role-based access and permissions, and improving UI/UX for real-world hospital use. I also worked on HMO and medical insurance tracking, helping address inefficiencies in how patient coverage, approvals, and billing data are handled. This experience pushed me to think deeply about data integrity, auditability, and usability in high-impact healthcare systems.
+                  </div>
+                </motion.div>
+              </motion.div>
               
-              <motion.p 
-                className="text-lg mb-6"
+              {/* FAQ Section 3 - Technical Skills */}
+              <motion.div 
+                className="mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
               >
-                My main toolkit includes React, Vue 3, Next.js, TypeScript, Tailwind, and Python — but I&apos;m also comfortable diving into C++, Rust, Flask, SQL, and even low-level graphics with OpenGL and VTK. I&apos;ve built things ranging from Web3 social networks on the NEAR Protocol to a GUI for OpenFOAM CFD simulations, a 3D visualization tool using Trame and VTK, and production-grade internal tools.
-              </motion.p>
+                <button
+                  onClick={() => toggleFaqSection('skills')}
+                  className="w-full text-left border border-[var(--cyber-blue)] rounded-lg p-4 hover:border-[var(--cyber-pink)] transition-colors flex justify-between items-center group"
+                  onMouseEnter={() => setCursorVariant("text")}
+                  onMouseLeave={() => setCursorVariant("default")}
+                >
+                  <h3 className="text-xl font-semibold text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-colors">
+                    What technologies do I work with?
+                  </h3>
+                  <span className="text-2xl text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-all transform">
+                    {openFaqSections.skills ? '−' : '+'}
+                  </span>
+                </button>
+                <motion.div
+                  initial={false}
+                  animate={{ height: openFaqSections.skills ? 'auto' : 0, opacity: openFaqSections.skills ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-4 text-lg border-x border-b border-[var(--cyber-blue)] rounded-b-lg">
+                    My main toolkit includes React, Vue 3, Next.js, TypeScript, Tailwind, and Python — but I&apos;m also comfortable diving into C++, Rust, Flask, SQL, and even low-level graphics with OpenGL and VTK. I&apos;ve built things ranging from Web3 social networks on the NEAR Protocol to a GUI for OpenFOAM CFD simulations, a 3D visualization tool using Trame and VTK, and production-grade internal tools.
+                  </div>
+                </motion.div>
+              </motion.div>
               
-              <motion.p 
-                className="text-lg mb-8"
+              {/* FAQ Section 4 - Interests */}
+              <motion.div 
+                className="mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                When I&apos;m not coding, you&apos;ll probably find me exploring sci-fi concepts or brushing up on new ideas through online courses and deep dives. I&apos;m always excited to collaborate on meaningful, technically challenging projects — feel free to reach out.
-              </motion.p>
+                <button
+                  onClick={() => toggleFaqSection('interests')}
+                  className="w-full text-left border border-[var(--cyber-blue)] rounded-lg p-4 hover:border-[var(--cyber-pink)] transition-colors flex justify-between items-center group"
+                  onMouseEnter={() => setCursorVariant("text")}
+                  onMouseLeave={() => setCursorVariant("default")}
+                >
+                  <h3 className="text-xl font-semibold text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-colors">
+                    What do I do outside of coding?
+                  </h3>
+                  <span className="text-2xl text-[var(--cyber-blue)] group-hover:text-[var(--cyber-pink)] transition-all transform">
+                    {openFaqSections.interests ? '−' : '+'}
+                  </span>
+                </button>
+                <motion.div
+                  initial={false}
+                  animate={{ height: openFaqSections.interests ? 'auto' : 0, opacity: openFaqSections.interests ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-4 text-lg border-x border-b border-[var(--cyber-blue)] rounded-b-lg">
+                    When I&apos;m not coding, you&apos;ll probably find me exploring sci-fi concepts or brushing up on new ideas through online courses and deep dives. I&apos;m always excited to collaborate on meaningful, technically challenging projects — feel free to reach out.
+                  </div>
+                </motion.div>
+              </motion.div>
               
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
