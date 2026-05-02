@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, FormEvent } from "react";
-import emailjs from '@emailjs/browser';
 import Image from "next/image";
 import { motion } from "framer-motion";
 import HeroBackground from "../components/HeroBackground";
@@ -65,49 +64,34 @@ export default function Home() {
     }));
   };
 
-  // Initialize EmailJS once when component mounts
-  useEffect(() => {
-    // Initialize EmailJS with your public key
-    emailjs.init({
-      publicKey: "DCSyKs6qBD_MyM4-K", // Replace with your actual public key from EmailJS
-    });
-  }, []);
-
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('loading');
 
-    // Your actual EmailJS service ID and template ID
-    const serviceId = 'service_37owx3h'; // Replace with your actual service ID
-    const templateId = 'template_6pjccxy'; // Replace with your actual template ID
-    
     try {
-      console.log('Sending email with data:', {
-        name: formData.name,
-        email: formData.email,
-        messageLength: formData.message.length
+      const submitData = new FormData(e.currentTarget);
+      submitData.append("access_key", "0fe559c3-48fb-40a1-806d-c7f9844e75cb");
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: submitData
       });
       
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.name,
-          reply_to: formData.email,
-          message: formData.message,
-          to_name: 'Emmanuel' // This should match your template variables
-          // The to_email should be configured in the EmailJS template directly
-        }
-      );
+      const data = await response.json();
       
-      setFormStatus('success');
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        message: ''
-      });
+      if (data.success) {
+        setFormStatus('success');
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
+      } else {
+        console.error('Web3Forms Error:', data);
+        setFormStatus('error');
+      }
       
       // Reset form status after 5 seconds
       setTimeout(() => {
